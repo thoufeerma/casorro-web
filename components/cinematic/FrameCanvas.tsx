@@ -57,34 +57,48 @@ export const FrameCanvas: React.FC<FrameCanvasProps> = ({
     const startPreloading = async () => {
       let count = 0;
 
-      // 1. Full Preload (Wait for all frames so the user doesn't see a black screen)
-      const priorityCount = Math.min(30, TOTAL_FRAMES);
-      for (let i = 0; i < priorityCount; i++) {
+      // 1. Skeleton Load: Load every 10th frame to prevent black screens
+      // This gives the user an instant, slightly lower-FPS version of the full video
+      const KEYFRAME_INTERVAL = 10;
+      const priorityIndices: number[] = [];
+      for (let i = 0; i < TOTAL_FRAMES; i += KEYFRAME_INTERVAL) {
+        priorityIndices.push(i);
+      }
+      // Guarantee the final frame is loaded so the cinematic hold works perfectly
+      if (!priorityIndices.includes(TOTAL_FRAMES - 1)) {
+        priorityIndices.push(TOTAL_FRAMES - 1);
+      }
+
+      for (let i = 0; i < priorityIndices.length; i++) {
         if (isCancelled) return;
         try {
-          await loadImage(i);
+          await loadImage(priorityIndices[i]);
           count++;
           setLoadedCount(count);
-          onProgress?.((count / priorityCount) * 100);
+          // Progress bar tracks the skeleton load
+          onProgress?.((count / priorityIndices.length) * 100);
         } catch {
           // continue
         }
       }
 
-      // Signal that priority batch (clip1) is ready
+      // Signal that skeleton is ready! UI can be shown instantly.
       onInitialLoadComplete?.();
 
-      // 2. Stream remaining clip frames sequentially in chunks
-      const CHUNK_SIZE = 10;
-      for (let i = priorityCount; i < TOTAL_FRAMES; i += CHUNK_SIZE) {
-        if (isCancelled) return;
-        const chunkIndices = [];
-        for (let j = i; j < Math.min(i + CHUNK_SIZE, TOTAL_FRAMES); j++) {
-          chunkIndices.push(j);
+      // 2. Stream remaining frames to fill in the gaps
+      const remainingIndices: number[] = [];
+      for (let i = 0; i < TOTAL_FRAMES; i++) {
+        if (!priorityIndices.includes(i)) {
+          remainingIndices.push(i);
         }
+      }
 
+      const CHUNK_SIZE = 10;
+      for (let i = 0; i < remainingIndices.length; i += CHUNK_SIZE) {
+        if (isCancelled) return;
+        const chunk = remainingIndices.slice(i, i + CHUNK_SIZE);
         await Promise.all(
-          chunkIndices.map((idx) =>
+          chunk.map((idx) =>
             loadImage(idx)
               .then(() => {
                 count++;
