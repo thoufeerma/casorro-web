@@ -23,6 +23,19 @@ export const CinematicPreloader: React.FC<PreloaderProps> = ({
 
   const shouldHide = isLoaded && minTimePassed;
 
+  // Prevent scrolling while loading
+  useEffect(() => {
+    if (!shouldHide) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [shouldHide]);
+
   // Unmount completely after fade animation finishes
   useEffect(() => {
     if (shouldHide) {
