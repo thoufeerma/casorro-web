@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import FrameCanvas from "./FrameCanvas";
 import ChapterOverlay from "./ChapterOverlay";
 import CinematicPreloader from "./CinematicPreloader";
+import IngredientOverlay from "./IngredientOverlay";
 import { PHASE_RANGES, TOTAL_FRAMES, FramePhaseRange } from "@/lib/framesManifest";
 import { ChapterInfo } from "@/lib/types";
 
@@ -83,6 +84,9 @@ export const CinematicSection: React.FC<CinematicSectionProps> = ({
             onProgress={handleProgress}
             onInitialLoadComplete={handleInitialLoadComplete}
           />
+
+          {/* Synchronized Ingredient Typography Overlay */}
+          <IngredientOverlay currentFrame={currentFrame} />
 
           {/* Ambient Editorial Chapter Typography Overlay */}
           <ChapterOverlay

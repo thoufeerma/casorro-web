@@ -40,8 +40,8 @@ export const CinematicPreloader: React.FC<PreloaderProps> = ({
       role="status"
       aria-live="polite"
       aria-label="Loading cinematic experience"
-      className={`fixed inset-0 z-50 bg-[#141312] flex flex-col items-center justify-center px-6 transition-all duration-[1000ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${
-        shouldHide ? "-translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
+      className={`fixed inset-0 z-50 bg-[#141312] flex flex-col items-center justify-center px-6 transition-transform duration-[1000ms] ease-[cubic-bezier(0.7,0,0.3,1)] ${
+        shouldHide ? "-translate-y-full pointer-events-none" : "translate-y-0"
       }`}
     >
       <div className="max-w-xs text-center space-y-6">
