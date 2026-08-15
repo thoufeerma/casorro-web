@@ -11,16 +11,27 @@ export const CinematicPreloader: React.FC<PreloaderProps> = ({
   isLoaded,
 }) => {
   const [shouldUnmount, setShouldUnmount] = useState(false);
+  const [minTimePassed, setMinTimePassed] = useState(false);
+
+  // Guarantee at least 5 seconds of loading screen
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinTimePassed(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const shouldHide = isLoaded && minTimePassed;
 
   // Unmount completely after fade animation finishes
   useEffect(() => {
-    if (isLoaded) {
+    if (shouldHide) {
       const timer = setTimeout(() => {
         setShouldUnmount(true);
       }, 700); // 700ms matches the fade-out duration
       return () => clearTimeout(timer);
     }
-  }, [isLoaded]);
+  }, [shouldHide]);
 
   if (shouldUnmount) return null;
 
@@ -30,7 +41,7 @@ export const CinematicPreloader: React.FC<PreloaderProps> = ({
       aria-live="polite"
       aria-label="Loading cinematic experience"
       className={`fixed inset-0 z-[100] bg-[#E8D9CF] flex flex-col items-center justify-center px-6 transition-opacity duration-700 ease-in-out ${
-        isLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+        shouldHide ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
       {/* Subtle radial ambient light behind the logo */}
@@ -45,7 +56,7 @@ export const CinematicPreloader: React.FC<PreloaderProps> = ({
 
       <div 
         className={`relative max-w-md w-full text-center flex flex-col items-center z-10 transition-opacity duration-500 ease-in-out ${
-          isLoaded ? "opacity-0" : "opacity-100"
+          shouldHide ? "opacity-0" : "opacity-100"
         }`}
       >
         {/* Subtle center monogram/motif behind the text */}

@@ -75,8 +75,8 @@ export const FrameCanvas: React.FC<FrameCanvasProps> = ({
           await loadImage(priorityIndices[i]);
           count++;
           setLoadedCount(count);
-          // Progress bar tracks the skeleton load
-          onProgress?.((count / priorityIndices.length) * 100);
+          // Progress bar tracks total frames loaded
+          onProgress?.((count / TOTAL_FRAMES) * 100);
         } catch {
           // continue
         }
@@ -103,6 +103,7 @@ export const FrameCanvas: React.FC<FrameCanvasProps> = ({
               .then(() => {
                 count++;
                 setLoadedCount(count);
+                onProgress?.((count / TOTAL_FRAMES) * 100);
               })
               .catch(() => { })
           )
