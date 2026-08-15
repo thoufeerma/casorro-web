@@ -14,18 +14,20 @@ interface IngredientOverlayProps {
 }
 
 export const IngredientOverlay: React.FC<IngredientOverlayProps> = ({ currentFrame }) => {
-  const FADE_FRAMES = 5;
-
   return (
     <div className="absolute inset-0 pointer-events-none z-10" aria-hidden="true">
       {INGREDIENTS.map((ingredient) => {
         let opacity = 0;
         
         if (currentFrame >= ingredient.start && currentFrame <= ingredient.end) {
-          if (currentFrame < ingredient.start + FADE_FRAMES) {
-            opacity = (currentFrame - ingredient.start) / FADE_FRAMES;
-          } else if (currentFrame > ingredient.end - FADE_FRAMES) {
-            opacity = (ingredient.end - currentFrame) / FADE_FRAMES;
+          const rangeLength = ingredient.end - ingredient.start;
+          // Target ~10 frames for fade, but cap at 1/3 of the total range for shorter ingredients
+          const fadeFrames = Math.max(2, Math.min(10, Math.floor(rangeLength / 3)));
+          
+          if (currentFrame < ingredient.start + fadeFrames) {
+            opacity = (currentFrame - ingredient.start) / fadeFrames;
+          } else if (currentFrame > ingredient.end - fadeFrames) {
+            opacity = (ingredient.end - currentFrame) / fadeFrames;
           } else {
             opacity = 1;
           }

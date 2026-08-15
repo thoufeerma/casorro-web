@@ -171,15 +171,15 @@ export const FrameCanvas: React.FC<FrameCanvasProps> = ({
       let drawY = 0;
 
       if (canvasRatio > imgRatio) {
-        drawHeight = canvas.height;
-        drawWidth = canvas.height * imgRatio;
-        drawX = (canvas.width - drawWidth) / 2;
-        drawY = 0;
-      } else {
         drawWidth = canvas.width;
         drawHeight = canvas.width / imgRatio;
         drawX = 0;
         drawY = (canvas.height - drawHeight) / 2;
+      } else {
+        drawHeight = canvas.height;
+        drawWidth = canvas.height * imgRatio;
+        drawX = (canvas.width - drawWidth) / 2;
+        drawY = 0;
       }
 
       ctx.imageSmoothingEnabled = true;
@@ -218,7 +218,7 @@ export const FrameCanvas: React.FC<FrameCanvasProps> = ({
     <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center">
       <canvas
         ref={canvasRef}
-        className="w-full h-full block object-contain transition-opacity duration-300"
+        className="w-full h-full block object-cover transition-opacity duration-300"
         aria-label="CASORRO fragrance frame sequence"
       />
       <div

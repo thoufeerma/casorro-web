@@ -28,8 +28,10 @@ export default function Home() {
       {/* Cinematic Frame Animation Experience */}
       <CinematicSection onChapterChange={setActiveChapter} />
 
-      {/* Fragrance Narrative Section */}
-      <FutureContentSection />
+      {/* Fragrance Narrative Section slides over the sticky hero */}
+      <div className="relative z-10 -mt-[100vh] shadow-[0_-4px_24px_rgba(0,0,0,0.05)] border-t border-brand-charcoal-deep/10">
+        <FutureContentSection />
+      </div>
 
       {/* Product Reservation & Footer */}
       <ProductCtaSection />

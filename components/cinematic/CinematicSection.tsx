@@ -27,7 +27,9 @@ export const CinematicSection: React.FC<CinematicSectionProps> = ({
 
     const rect = containerRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
-    const totalScrollableDistance = rect.height - windowHeight;
+    // We subtract an extra windowHeight because the next section overlaps by 100vh
+    // This ensures the frame sequence hits 100% exactly when the slide-over begins.
+    const totalScrollableDistance = rect.height - (2 * windowHeight);
 
     if (totalScrollableDistance <= 0) return;
 
@@ -69,12 +71,12 @@ export const CinematicSection: React.FC<CinematicSectionProps> = ({
       {/* Preloader overlay while initial priority frames stream */}
       <CinematicPreloader progress={loadProgress} isLoaded={isLoaded} />
 
-      {/* Pinned Scroll Container (700vh height provides smooth 842-frame scrolling) */}
+      {/* Pinned Scroll Container (1500vh height provides slow, premium scrolling for the sequence) */}
       <section
         ref={containerRef}
         id="cinematic-view"
         aria-label="Scroll Controlled Fragrance Cinematic Experience"
-        className="relative w-full h-[700vh] bg-brand-charcoal-deep"
+        className="relative w-full h-[1500vh] bg-brand-charcoal-deep"
       >
         {/* Sticky Fullscreen Viewport */}
         <div className="sticky top-0 h-screen w-full overflow-hidden bg-brand-charcoal-deep">
@@ -84,6 +86,9 @@ export const CinematicSection: React.FC<CinematicSectionProps> = ({
             onProgress={handleProgress}
             onInitialLoadComplete={handleInitialLoadComplete}
           />
+
+          {/* Subtle dark overlay to ensure text readability against bright frames */}
+          <div className="absolute inset-0 pointer-events-none bg-black/30 z-[5]" aria-hidden="true" />
 
           {/* Synchronized Ingredient Typography Overlay */}
           <IngredientOverlay currentFrame={currentFrame} />
