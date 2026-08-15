@@ -57,8 +57,8 @@ export const FrameCanvas: React.FC<FrameCanvasProps> = ({
     const startPreloading = async () => {
       let count = 0;
 
-      // 1. Priority Load (Clip 1 in strict sequential order)
-      const priorityCount = Math.min(PRIORITY_BATCH_SIZE, TOTAL_FRAMES);
+      // 1. Full Preload (Wait for all frames so the user doesn't see a black screen)
+      const priorityCount = Math.min(30, TOTAL_FRAMES);
       for (let i = 0; i < priorityCount; i++) {
         if (isCancelled) return;
         try {

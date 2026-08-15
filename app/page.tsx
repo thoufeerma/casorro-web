@@ -9,8 +9,8 @@ import { ChapterInfo } from "@/lib/types";
 const CinematicSection = dynamic(() => import("@/components/cinematic/CinematicSection"), { 
   ssr: false,
   loading: () => (
-    <div className="fixed inset-0 z-50 bg-[#141312] flex items-center justify-center">
-      <img src="/images/Casorro_Logo_3.webp" alt="CASORRO" className="h-16 w-auto object-contain animate-pulse" />
+    <div className="fixed inset-0 z-[100] bg-[#E8D9CF] flex flex-col items-center justify-center px-6">
+      <img src="/images/Casorro_Logo_3.webp" alt="CASORRO" className="h-8 w-auto object-contain animate-pulse brightness-0 opacity-80" />
     </div>
   )
 });

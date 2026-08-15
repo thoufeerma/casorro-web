@@ -393,20 +393,7 @@ export const FRAME_SEQUENCE: string[] = [
   "/frames/clip1/frame_0378.webp",
   "/frames/clip1/frame_0379.webp",
   "/frames/clip1/frame_0380.webp",
-  "/frames/clip1/frame_0381.webp",
-  "/frames/clip1/frame_0382.webp",
-  "/frames/clip1/frame_0383.webp",
-  "/frames/clip1/frame_0384.webp",
-  "/frames/clip1/frame_0385.webp",
-  "/frames/clip1/frame_0386.webp",
-  "/frames/clip1/frame_0387.webp",
-  "/frames/clip1/frame_0388.webp",
-  "/frames/clip1/frame_0389.webp",
-  "/frames/clip1/frame_0390.webp",
-  "/frames/clip1/frame_0391.webp",
-  "/frames/clip1/frame_0392.webp",
-  "/frames/clip1/frame_0393.webp",
-  "/frames/clip1/frame_0394.webp"
+  "/frames/clip1/frame_0381.webp"
 ];
 
 export const PHASE_RANGES: FramePhaseRange[] = [
@@ -419,9 +406,9 @@ export const PHASE_RANGES: FramePhaseRange[] = [
       "subtitle": "A cinematic journey into the heart of luxury."
     },
     "startIndex": 0,
-    "endIndex": 393,
-    "count": 394
+    "endIndex": 380,
+    "count": 381
   }
 ];
 
-export const TOTAL_FRAMES = 394;
+export const TOTAL_FRAMES = 381;
